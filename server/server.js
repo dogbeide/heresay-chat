@@ -19,15 +19,16 @@ io.on('connection', (socket) => {
   var now = Date().toString();
   console.log('New user connected: '+now);
 
-  // socket.emit('newEmail', {
-  //   from: 'testdev@spacebearchat.com',
-  //   text: 'Welcome to Spacebear!',
-  //   createdAt: Date().toString()
-  // });
-
-  // socket.on('createEmail', (address) => {
-  //   console.log('createEmail', address);
-  // });
+  // socket.broadcast.emit from Admin, new user joined
+  socket.broadcast.emit('newMessage', {
+    from: 'Spacebear',
+    text: `New user has joined Spacebear Chat`
+  });
+  // socket.emit from Admin, welcome to chat
+  socket.emit('newMessage', {
+    from: 'Spacebear',
+    text: 'Welcome to Spacebear chat!'
+  });
 
   socket.on('createMessage', (msg) => {
     console.log('createMessage', msg);
@@ -37,6 +38,11 @@ io.on('connection', (socket) => {
       text: msg.text,
       createdAt: new Date().getTime()
     });
+    // socket.broadcast.emit('newMessage', {
+    //   from: msg.from,
+    //   text: msg.text,
+    //   createdAt: new Date().getTime()
+    // });
   });
 
   socket.on('disconnect', () => {
