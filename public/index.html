@@ -7,20 +7,8 @@
   <body>
     <h1>Welcome to Spacebear, sign up and chat now!</h1>
 
-    <script type="text/javascript" src="/socket.io/socket.io.js"></script>
-    <script type="text/javascript">
-      var socket = io();
-
-      socket.on('connect', () => {
-        var now = Date().toString();
-        console.log('Connected to server: '+now);
-      });
-
-      socket.on('disconnect', () => {
-        var now = Date().toString();
-        console.log('Disconnected from server: '+now);
-      });
-
-    </script>
+    <script src="/socket.io/socket.io.js"></script>
+    <script src="/js/index.js"></script>
+    
   </body>
 </html>
