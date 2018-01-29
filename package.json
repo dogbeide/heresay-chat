@@ -4,11 +4,12 @@
   "description": "A real-time messenger chat app for the web",
   "main": "index.js",
   "dependencies": {
-    "express": "^4.16.2"
+    "express": "^4.16.2",
+    "socket.io": "^2.0.4"
   },
   "devDependencies": {},
   "scripts": {
-    "start": "node server/server.js",
+    "start": "DEBUG=express:* nodemon server/server.js",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "engines": {
