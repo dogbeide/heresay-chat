@@ -29,14 +29,14 @@ io.on('connection', (socket) => {
   //   console.log('createEmail', address);
   // });
 
-  socket.emit('newMessage', {
-    from: 'Spacebear',
-    text: 'Hello, welcome to Spacebear',
-    createdAt: now
-  });
-
   socket.on('createMessage', (msg) => {
     console.log('createMessage', msg);
+
+    io.emit('newMessage', {
+      from: msg.from,
+      text: msg.text,
+      createdAt: new Date().getTime()
+    });
   });
 
   socket.on('disconnect', () => {

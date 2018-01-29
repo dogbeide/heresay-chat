@@ -7,11 +7,6 @@ var timeLog = function (msg) {
 
 socket.on('connect', function () {
   timeLog('Connected to server:');
-
-  // socket.emit('createEmail', {
-  //   to: 'testdev@spacebearchat.com',
-  //   text: 'Hey whatsup'
-  // });
 });
 
 socket.on('disconnect', function () {
@@ -20,11 +15,6 @@ socket.on('disconnect', function () {
 
 socket.on('newMessage', function(msg) {
   console.log(msg);
-
-  socket.emit('createMessage', {
-    from: 'testdev',
-    text: 'Thanks, asfj;fakjfa;sfjsdf'
-  });
 });
 
 
