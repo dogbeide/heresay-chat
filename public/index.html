@@ -5,10 +5,20 @@
     <title>Spacebear Chat</title>
   </head>
   <body>
-    <h1>Welcome to Spacebear, sign up and chat now!</h1>
+    <h1>Spacebear Chat</h1>
+
+    <ol id="chatlog">
+
+    </ol>
+
+    <form id="msg-form">
+      <input type="text" name="msg-text" placeholder="Type here">
+      <button>Send</button>
+    </form>
 
     <script src="/socket.io/socket.io.js"></script>
+    <script src="/js/lib/jquery-3.3.1.min.js"></script>
     <script src="/js/index.js"></script>
-    
+
   </body>
 </html>

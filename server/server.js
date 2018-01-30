@@ -23,10 +23,11 @@ io.on('connection', (socket) => {
   socket.broadcast.emit('newMessage', genMsg('Spacebear', 'New user has joined chatroom'));
   socket.emit('newMessage', genMsg('Spacebear', 'Welcome to Spacebear chat!'));
 
-  socket.on('createMessage', (msg) => {
+  socket.on('createMessage', (msg, callback) => {
     console.log('createMessage', msg);
 
     io.emit('newMessage', genMsg(msg.from, msg.text));
+    callback('This is from the Spacebear server');
     // socket.broadcast.emit('newMessage', {
     //   from: msg.from,
     //   text: msg.text,
