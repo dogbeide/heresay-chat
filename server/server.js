@@ -27,7 +27,7 @@ io.on('connection', (socket) => {
     console.log('createMessage', msg);
 
     io.emit('newMessage', genMsg(msg.from, msg.text));
-    callback('This is from the Spacebear server');
+    callback();
   });
 
   socket.on('createLocationMessage', (coords) => {

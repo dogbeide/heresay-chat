@@ -13,6 +13,7 @@ socket.on('disconnect', function () {
   timeLog('Disconnected from server:');
 });
 
+// Receive a message
 socket.on('newMessage', function(msg) {
   console.log(msg);
   var li = jQuery('<li></li>');
@@ -20,6 +21,7 @@ socket.on('newMessage', function(msg) {
   jQuery('#chatlog').append(li);
 });
 
+// Send location
 socket.on('newLocationMessage', function (msg) {
   var li = jQuery('<li></li>');
   var a = jQuery('<a target="_blank">My Location (Google Maps)</a>');
@@ -31,28 +33,39 @@ socket.on('newLocationMessage', function (msg) {
   jQuery('#chatlog').append(li);
 });
 
+
+// Send a message
 jQuery('#msg-form').on('submit', function (e) {
   e.preventDefault();
+
+  var msgText = jQuery('[name=msg-text]')
+
   socket.emit('createMessage', {
     from: 'user1',
-    text: jQuery('[name=msg-text]').val()
+    text: msgText.val()
   }, function () {
-
+    msgText.val('');
   });
 });
 
+
+// Geolocation
 var geoBtn = jQuery('#send-geo');
 geoBtn.on('click', function () {
   if (!navigator.geolocation) {
     return alert('Geolocation is not supported by your browser.');
   }
 
+  geoBtn.attr('disabled', 'disabled').text('Sending location...');
+
   navigator.geolocation.getCurrentPosition(function (position) {
     socket.emit('createLocationMessage', {
       latitude: position.coords.latitude,
       longitude: position.coords.longitude
     });
+    geoBtn.removeAttr('disabled').text('Send location');
   }, function () {
-    alert('Unabe to fetch location data');
+    alert('Unable to fetch location data');
+    geoBtn.removeAttr('disabled').text('Send location');
   });
 });

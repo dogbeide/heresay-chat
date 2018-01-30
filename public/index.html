@@ -3,19 +3,34 @@
   <head>
     <meta charset="utf-8">
     <title>Spacebear Chat</title>
+    <link rel="stylesheet" href="/css/master.css">
   </head>
-  <body>
-    <h1>Spacebear Chat</h1>
+  <body class="chat">
 
-    <ol id="chatlog">
+    <div class="chat-sidebar">
+      <h3>Chatroom</h3>
+      <div id="users">
 
-    </ol>
+      </div>
+    </div>
 
-    <form id="msg-form">
-      <input type="text" name="msg-text" placeholder="Type here">
-      <button>Send</button>
-    </form>
-    <button id="send-geo">Send Location</button>
+    <div class="chat-main">
+
+      <ol id="chatlog" class="chat-messages"></ol>
+
+      <div class="chat-footer">
+        <form id="msg-form">
+          <input type="text" name="msg-text" placeholder="Type here" autofocus autocomplete="off">
+          <button>Send</button>
+        </form>
+        <button id="send-geo">Send location</button>
+      </div>
+
+    </div>
+
+
+
+
 
     <script src="/socket.io/socket.io.js"></script>
     <script src="/js/lib/jquery-3.3.1.min.js"></script>
