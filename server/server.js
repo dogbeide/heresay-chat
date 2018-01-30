@@ -4,7 +4,7 @@ const http = require('http');
 const express = require('express');
 const socketIO = require('socket.io');
 
-const {genMsg} = require('./utils/message');
+const {genMsg, genGeoMsg} = require('./utils/message');
 const PUBLIC_PATH = path.join(__dirname, '../public');
 const port = process.env.PORT || 8000;
 
@@ -28,11 +28,10 @@ io.on('connection', (socket) => {
 
     io.emit('newMessage', genMsg(msg.from, msg.text));
     callback('This is from the Spacebear server');
-    // socket.broadcast.emit('newMessage', {
-    //   from: msg.from,
-    //   text: msg.text,
-    //   createdAt: new Date().getTime()
-    // });
+  });
+
+  socket.on('createLocationMessage', (coords) => {
+    io.emit('newLocationMessage', genGeoMsg('Spacebear', coords.latitude, coords.longitude));
   });
 
   socket.on('disconnect', () => {

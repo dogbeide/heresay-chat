@@ -20,12 +20,16 @@ socket.on('newMessage', function(msg) {
   jQuery('#chatlog').append(li);
 });
 
-// socket.emit('createMessage', {
-//   from: 'user1',
-//   text: 'pls respond'
-// }, function (data) {
-//   console.log('Message received', data);
-// });
+socket.on('newLocationMessage', function (msg) {
+  var li = jQuery('<li></li>');
+  var a = jQuery('<a target="_blank">My Location (Google Maps)</a>');
+
+  li.text(`${msg.from}: `);
+  a.attr('href', msg.url);
+
+  li.append(a);
+  jQuery('#chatlog').append(li);
+});
 
 jQuery('#msg-form').on('submit', function (e) {
   e.preventDefault();
@@ -34,5 +38,21 @@ jQuery('#msg-form').on('submit', function (e) {
     text: jQuery('[name=msg-text]').val()
   }, function () {
 
+  });
+});
+
+var geoBtn = jQuery('#send-geo');
+geoBtn.on('click', function () {
+  if (!navigator.geolocation) {
+    return alert('Geolocation is not supported by your browser.');
+  }
+
+  navigator.geolocation.getCurrentPosition(function (position) {
+    socket.emit('createLocationMessage', {
+      latitude: position.coords.latitude,
+      longitude: position.coords.longitude
+    });
+  }, function () {
+    alert('Unabe to fetch location data');
   });
 });
