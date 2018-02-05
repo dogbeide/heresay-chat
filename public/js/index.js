@@ -6,6 +6,22 @@ var timeLog = function (msg) {
   console.log(msg, now);
 };
 
+function scrollToBottom () {
+  // selectors
+  var chatlog = jQuery('#chatlog');
+  var newMsg = chatlog.children('li:last-child');
+  // heights
+  var clientHeight = chatlog.prop('clientHeight');
+  var scrollTop = chatlog.prop('scrollTop');
+  var scrollHeight = chatlog.prop('scrollHeight');
+  var newMsgHeight = newMsg.innerHeight();
+  var prevMsgHeight = newMsg.prev().innerHeight();
+
+  if (clientHeight + scrollTop + newMsgHeight + prevMsgHeight >= scrollHeight) {
+    chatlog.scrollTop(scrollHeight);
+  }
+}
+
 // // Create a message element for chatlog
 // var formatMsgLi = function (who, what, when) {
 //   var li = jQuery('<li></li>');
@@ -63,6 +79,7 @@ socket.on('newMessage', function(msg) {
   });
 
   jQuery('#chatlog').append(html);
+  scrollToBottom();
 });
 
 // Send location
@@ -79,6 +96,7 @@ socket.on('newLocationMessage', function (msg) {
     where: msg.url
   });
   jQuery('#chatlog').append(toInject);
+  scrollToBottom();
 });
 
 // Send a message
