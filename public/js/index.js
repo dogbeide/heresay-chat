@@ -6,40 +6,41 @@ var timeLog = function (msg) {
   console.log(msg, now);
 };
 
-// Create a message element for chatlog
-var formatMsgLi = function (who, what, when) {
-  var li = jQuery('<li></li>');
-
-  var spanWho = jQuery('<span></span>').text(who+" ").attr("class", "from");
-  when = moment(when).format('h:mm a');
-  var spanWhen = jQuery('<span></span>').text(`${when}: `).attr("class", "timestamp");
-  var spanWhat = jQuery('<span></span>').text(what).attr("class", "message");
-
-  li.append(spanWho);
-  li.append(spanWhen);
-  li.append(spanWhat);
-
-  return li;
-};
-
-var formatLocLi = function (who, where, when) {
-  var li = jQuery('<li></li>');
-
-  var spanWho = jQuery('<span></span>').text(who+" ").attr("class", "from");
-  when = moment(when).format('h:mm a');
-  var spanWhen = jQuery('<span></span>').text(`${when}: `).attr("class", "timestamp");
-  var divWhere = jQuery('<div></div>').attr("class", "location");
-
-  var a = jQuery('<a target="_blank">My Location (Google Maps)</a>');
-  a.attr("href", where);
-  divWhere.append(a);
-
-  li.append(spanWho);
-  li.append(spanWhen);
-  li.append(divWhere);
-
-  return li;
-};
+// // Create a message element for chatlog
+// var formatMsgLi = function (who, what, when) {
+//   var li = jQuery('<li></li>');
+//
+//   var spanWho = jQuery('<span></span>').text(who+" ").attr("class", "msg-who");
+//   when = moment(when).format('h:mm a');
+//   var spanWhen = jQuery('<span></span>').text(`${when}: `).attr("class", "msg-when");
+//   var spanWhat = jQuery('<span></span>').text(what).attr("class", "msg-what");
+//
+//   li.append(spanWho);
+//   li.append(spanWhen);
+//   li.append(spanWhat);
+//
+//   return li;
+// };
+//
+// // Create a location message element for chatlog
+// var formatLocLi = function (who, where, when) {
+//   var li = jQuery('<li></li>');
+//
+//   var spanWho = jQuery('<span></span>').text(who+" ").attr("class", "msg-who");
+//   when = moment(when).format('h:mm a');
+//   var spanWhen = jQuery('<span></span>').text(`${when}: `).attr("class", "msg-when");
+//   var divWhere = jQuery('<div></div>').attr("class", "msg-where");
+//
+//   var a = jQuery('<a target="_blank">My Location (Google Maps)</a>');
+//   a.attr("href", where);
+//   divWhere.append(a);
+//
+//   li.append(spanWho);
+//   li.append(spanWhen);
+//   li.append(divWhere);
+//
+//   return li;
+// };
 
 socket.on('connect', function () {
   timeLog('Connected to server:');
@@ -51,17 +52,33 @@ socket.on('disconnect', function () {
 
 // Receive a message
 socket.on('newMessage', function(msg) {
-  var msg = formatMsgLi(msg.from, msg.text, msg.createdAt);
-  jQuery('#chatlog').append(msg);
+  // var msg = formatMsgLi(msg.from, msg.text, msg.createdAt);
+  // jQuery('#chatlog').append(msg);
+
+  var template = jQuery('#msg-text-template').html();
+  var html = Mustache.render(template, {
+    who: msg.from,
+    when: moment(msg.createdAt).format('h:mm a'),
+    what: msg.text
+  });
+
+  jQuery('#chatlog').append(html);
 });
 
 // Send location
 socket.on('newLocationMessage', function (msg) {
-  var li = jQuery('<li></li>');
-  var a = jQuery('<a target="_blank">My Location (Google Maps)</a>');
-
-  var msg = formatLocLi(msg.from, msg.url, msg.createdAt);
-  jQuery('#chatlog').append(msg);
+  // var li = jQuery('<li></li>');
+  // var a = jQuery('<a target="_blank">My Location (Google Maps)</a>');
+  //
+  // var msg = formatLocLi(msg.from, msg.url, msg.createdAt);
+  // jQuery('#chatlog').append(msg);
+  var template = jQuery("#msg-loc-template").html();
+  var toInject = Mustache.render(template, {
+    who: msg.from,
+    when: moment(msg.createdAt).format('h:mm a'),
+    where: msg.url
+  });
+  jQuery('#chatlog').append(toInject);
 });
 
 // Send a message

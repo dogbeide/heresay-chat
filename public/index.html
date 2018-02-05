@@ -30,12 +30,36 @@
 
 
 
+    <script id="msg-text-template" type="text/template">
+      <li class="msg">
+        <div class="msg-header">
+          <span class="msg-who">{{who}}&nbsp;</span>
+          <span class="msg-when">{{when}}:&nbsp;</span>
+        </div>
+        <div class="msg-what">
+          {{what}}
+        </div>
+      </li>
+    </script>
 
-    {# <script src="js/lib/googlemapsapi.js"></script>#}
-    {# <script src="js/lib/jquery.googlemap.js"></script>#}
+    <script id="msg-loc-template" type="text/template">
+      <li class="msg">
+        <div class="msg-header">
+          <span class="msg-who">{{who}}&nbsp;</span>
+          <span class="msg-when">{{when}}:&nbsp;</span>
+        </div>
+        <div class="msg-where">
+            <a href="{{where}}" target="_blank">My Location (Google Maps)</a>
+        </div>
+      </li>
+    </script>
+
+    <!-- <script src="js/lib/googlemapsapi.js"></script> -->
+    <!-- <script src="js/lib/jquery.googlemap.js"></script> -->
     <script src="/socket.io/socket.io.js"></script>
     <script src="/js/lib/jquery-3.3.1.min.js"></script>
     <script src="/js/lib/moment.js"></script>
+    <script src="/js/lib/mustache.js"></script>
     <script src="/js/index.js"></script>
 
   </body>

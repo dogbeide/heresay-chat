@@ -194,16 +194,26 @@ button:disabled {
   }
 }
 
-.from {
+
+.msg {
+  margin-bottom: 7px;
+}
+
+.msg-header {
+  margin-bottom: 2px;
+}
+
+.msg-who {
+  font-size: 1.1em;
   font-weight: bold;
 }
 
-.timestamp {
+.msg-when {
   font-size: 0.8em;
   color: grey
 }
 
-.location {
+.msg-where {
   width: 192px;
   height: 108px;
 }
