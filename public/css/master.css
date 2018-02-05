@@ -193,3 +193,17 @@ button:disabled {
     margin-right: 0px;
   }
 }
+
+.from {
+  font-weight: bold;
+}
+
+.timestamp {
+  font-size: 0.8em;
+  color: grey
+}
+
+.location {
+  width: 192px;
+  height: 108px;
+}

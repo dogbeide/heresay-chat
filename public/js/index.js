@@ -1,8 +1,44 @@
 var socket = io();
+var APIkey = 'AIzaSyD26io7VMD9ahsNhCNP6PKx71pRm27CzEU';
 
 var timeLog = function (msg) {
   var now = Date().toString();
   console.log(msg, now);
+};
+
+// Create a message element for chatlog
+var formatMsgLi = function (who, what, when) {
+  var li = jQuery('<li></li>');
+
+  var spanWho = jQuery('<span></span>').text(who+" ").attr("class", "from");
+  when = moment(when).format('h:mm a');
+  var spanWhen = jQuery('<span></span>').text(`${when}: `).attr("class", "timestamp");
+  var spanWhat = jQuery('<span></span>').text(what).attr("class", "message");
+
+  li.append(spanWho);
+  li.append(spanWhen);
+  li.append(spanWhat);
+
+  return li;
+};
+
+var formatLocLi = function (who, where, when) {
+  var li = jQuery('<li></li>');
+
+  var spanWho = jQuery('<span></span>').text(who+" ").attr("class", "from");
+  when = moment(when).format('h:mm a');
+  var spanWhen = jQuery('<span></span>').text(`${when}: `).attr("class", "timestamp");
+  var divWhere = jQuery('<div></div>').attr("class", "location");
+
+  var a = jQuery('<a target="_blank">My Location (Google Maps)</a>');
+  a.attr("href", where);
+  divWhere.append(a);
+
+  li.append(spanWho);
+  li.append(spanWhen);
+  li.append(divWhere);
+
+  return li;
 };
 
 socket.on('connect', function () {
@@ -15,10 +51,8 @@ socket.on('disconnect', function () {
 
 // Receive a message
 socket.on('newMessage', function(msg) {
-  console.log(msg);
-  var li = jQuery('<li></li>');
-  li.text(`${msg.from}: ${msg.text}`);
-  jQuery('#chatlog').append(li);
+  var msg = formatMsgLi(msg.from, msg.text, msg.createdAt);
+  jQuery('#chatlog').append(msg);
 });
 
 // Send location
@@ -26,13 +60,9 @@ socket.on('newLocationMessage', function (msg) {
   var li = jQuery('<li></li>');
   var a = jQuery('<a target="_blank">My Location (Google Maps)</a>');
 
-  li.text(`${msg.from}: `);
-  a.attr('href', msg.url);
-
-  li.append(a);
-  jQuery('#chatlog').append(li);
+  var msg = formatLocLi(msg.from, msg.url, msg.createdAt);
+  jQuery('#chatlog').append(msg);
 });
-
 
 // Send a message
 jQuery('#msg-form').on('submit', function (e) {
@@ -47,7 +77,6 @@ jQuery('#msg-form').on('submit', function (e) {
     msgText.val('');
   });
 });
-
 
 // Geolocation
 var geoBtn = jQuery('#send-geo');
