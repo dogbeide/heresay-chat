@@ -1,0 +1,67 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=no">
+    <title>Chat | Spacebear</title>
+    <link rel="stylesheet" href="/css/master.css">
+  </head>
+  <body class="chat">
+
+    <div class="chat-sidebar">
+      <h3>Chatroom</h3>
+      <div id="users">
+
+      </div>
+    </div>
+
+    <div class="chat-main">
+
+      <ol id="chatlog" class="chat-messages"></ol>
+
+      <div class="chat-footer">
+        <form id="msg-form">
+          <input type="text" name="msg-text" placeholder="Type here" autofocus autocomplete="off">
+          <button>Send</button>
+        </form>
+        <button id="send-geo">Send location</button>
+      </div>
+
+    </div>
+
+
+
+    <script id="msg-text-template" type="text/template">
+      <li class="msg">
+        <div class="msg-header">
+          <span class="msg-who">{{who}}&nbsp;</span>
+          <span class="msg-when">{{when}}:&nbsp;</span>
+        </div>
+        <div class="msg-what">
+          {{what}}
+        </div>
+      </li>
+    </script>
+
+    <script id="msg-loc-template" type="text/template">
+      <li class="msg">
+        <div class="msg-header">
+          <span class="msg-who">{{who}}&nbsp;</span>
+          <span class="msg-when">{{when}}:&nbsp;</span>
+        </div>
+        <div class="msg-where">
+            <a href="{{where}}" target="_blank">My Location (Google Maps)</a>
+        </div>
+      </li>
+    </script>
+
+    <!-- <script src="js/lib/googlemapsapi.js"></script> -->
+    <!-- <script src="js/lib/jquery.googlemap.js"></script> -->
+    <script src="/socket.io/socket.io.js"></script>
+    <script src="/js/lib/jquery-3.3.1.min.js"></script>
+    <script src="/js/lib/moment.js"></script>
+    <script src="/js/lib/mustache.js"></script>
+    <script src="/js/chat.js"></script>
+
+  </body>
+</html>
