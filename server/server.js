@@ -24,8 +24,8 @@ io.on('connection', (socket) => {
   var now = Date().toString();
   console.log('New user connected: '+now);
 
-  // socket.broadcast.emit('newMessage', genMsg('Spacebear', 'New user has joined chatroom'));
-  // socket.emit('newMessage', genMsg('Spacebear', 'Welcome to Spacebear chat!'));
+  // socket.broadcast.emit('newMessage', genMsg('Heresay Admin', 'New user has joined chatroom'));
+  // socket.emit('newMessage', genMsg('Heresay Admin', 'Welcome to Heresay chat!'));
 
   socket.on('join', (params, callback) => {
     // io.emit -> io.to('Room name str').emit
@@ -40,8 +40,8 @@ io.on('connection', (socket) => {
     users.addUser(socket.id, params.name, params.room);
 
     io.to(params.room).emit('updateUserList', users.getUserList(params.room));
-    socket.broadcast.to(params.room).emit('newMessage', genMsg('Spacebear', `${params.name} has joined the chatroom`));
-    socket.emit('newMessage', genMsg('Spacebear', 'Welcome to Spacebear chat!'));
+    socket.broadcast.to(params.room).emit('newMessage', genMsg('Heresay Admin', `${params.name} has joined the chatroom`));
+    socket.emit('newMessage', genMsg('Heresay Admin', 'Say it here!'));
     callback();
   });
 
@@ -52,8 +52,8 @@ io.on('connection', (socket) => {
     callback();
   });
 
-  socket.on('createLocationMessage', (coords) => {
-    io.emit('newLocationMessage', genGeoMsg('Spacebear', coords.latitude, coords.longitude));
+  socket.on('createLocationMessage', (data) => {
+    io.emit('newLocationMessage', genGeoMsg(data.name, data.latitude, data.longitude));
   });
 
   socket.on('disconnect', () => {
@@ -62,7 +62,7 @@ io.on('connection', (socket) => {
 
     if (user) {
       io.to(user.room).emit('updateUserList', users.getUserList(user.room));
-      io.to(user.room).emit('newMessage', genMsg('Spacebear', `${user.name} has left the room.`));
+      io.to(user.room).emit('newMessage', genMsg('Heresay Admin', `${user.name} has left the room.`));
     }
     console.log('User has disconnected: '+now);
   });

@@ -58,10 +58,19 @@ function scrollToBottom () {
 //   return li;
 // };
 
+// User session data
+var userData = {
+  name: undefined,
+  room: undefined
+};
+
 // connect to the server
 socket.on('connect', function () {
   timeLog('Connected to server:');
   var params= jQuery.deparam(window.location.search);
+  userData.name = params.name;
+  userData.room = params.room
+
   socket.emit('join', params, function (err) {
     if (err) {
       alert(err);
@@ -74,6 +83,8 @@ socket.on('connect', function () {
 
 // disconnected from the server
 socket.on('disconnect', function () {
+  userData.name = undefined;
+  userData.room = undefined;
   timeLog('Disconnected from server:');
 });
 
@@ -127,7 +138,7 @@ jQuery('#msg-form').on('submit', function (e) {
   var msgText = jQuery('[name=msg-text]')
 
   socket.emit('createMessage', {
-    from: 'user1',
+    from: userData.name,
     text: msgText.val()
   }, function () {
     msgText.val('');
@@ -145,6 +156,7 @@ geoBtn.on('click', function () {
 
   navigator.geolocation.getCurrentPosition(function (position) {
     socket.emit('createLocationMessage', {
+      name: userData.name,
       latitude: position.coords.latitude,
       longitude: position.coords.longitude
     });
