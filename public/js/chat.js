@@ -156,7 +156,6 @@ geoBtn.on('click', function () {
 
   navigator.geolocation.getCurrentPosition(function (position) {
     socket.emit('createLocationMessage', {
-      name: userData.name,
       latitude: position.coords.latitude,
       longitude: position.coords.longitude
     });

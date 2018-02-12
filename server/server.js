@@ -46,14 +46,23 @@ io.on('connection', (socket) => {
   });
 
   socket.on('createMessage', (msg, callback) => {
-    console.log('createMessage', msg);
+    // io.emit('newMessage', genMsg(msg.from, msg.text));
+    var user = users.getUser(socket.id);
 
-    io.emit('newMessage', genMsg(msg.from, msg.text));
+    if (user && isRealStr(msg.text)) {
+      io.to(user.room).emit('newMessage', genMsg(user.name, msg.text));
+    }
+
     callback();
   });
 
   socket.on('createLocationMessage', (data) => {
-    io.emit('newLocationMessage', genGeoMsg(data.name, data.latitude, data.longitude));
+    // io.emit('newLocationMessage', genGeoMsg(data.name, data.latitude, data.longitude));
+    var user = users.getUser(socket.id);
+
+    if (user && data) {
+      io.to(user.room).emit('newLocationMessage', genGeoMsg(user.name, data.latitude, data.longitude));
+    }
   });
 
   socket.on('disconnect', () => {
